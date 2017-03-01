@@ -10,8 +10,8 @@ var serverConfig = {
 };
 
 var app = express();
-var HTTPS_PORT = 8443;
-
+var HTTPS_PORT = 8080;
+var NOMBRE = process.env.NOMBRE;
 var httpsServer = https.createServer(serverConfig, app).listen(HTTPS_PORT);
 
 app.use(bodyParser.json());
@@ -56,11 +56,11 @@ function validarUsuario (u,p){
 app.get(/^(.+)$/, function(req, res){ 
     switch(req.params[0]) {
 	case '/':
-		res.render('login',{title:'Login'});
+		res.render('login',{title:'Login' , name:NOMBRE});
 		res.end();
 		break;
         case '/panelDispositivos':
-            res.render('panelDispositivos',{title:'Panel Dispositivos'});
+            res.render('panelDispositivos',{title:'Panel Dispositivos', name:NOMBRE});
 		res.end();
             break;
 	case '/dispositivos':
