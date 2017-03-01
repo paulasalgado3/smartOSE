@@ -1,0 +1,58 @@
+html
+  head
+    script(src='json-to-table.js')
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    style.
+      .outletApagado{ background-image: url("imagenes/outletApagado.png"); width:20px;height:38px;background-size: 100% }
+      .outletPrendido{ background-image: url("imagenes/outletPrendido.png");width:20px;height:38px;background-size: 100% }
+      .editar{ background-image: url("imagenes/edit.png");width:20px;height:20px;background-size: 100%
+    script.
+      window.addEventListener("click", validarToken);
+      var xhr = new XMLHttpRequest();
+      function enviarPOST(url,json){        $.ajax({
+      url: url,
+      type: 'POST',
+      dataType: 'json',
+      data: json,
+      contentType: 'application/json; charset=utf-8',
+      error: function (result) {
+      alert("error" );},
+      success: function (data) {
+      if(data.message == "correcto"){
+      switch (data.accion){
+      case 'redirect':
+      window.location.href = data.destino;
+      break;
+      default:
+      }
+      }else{
+      switch (data.accion){
+      case 'redirect':
+      alert('Usuario o Password incorrecto');
+      break;
+      default:
+      window.location.href = '/';
+      }
+      }
+      }        });
+      }
+      function validarToken(){
+      console.log('paso');
+      var id = (document.cookie.match(/^(?:.*;)?token=([^;]+)(?:.*)?$/)||[,null])[1];
+      var token = new Object();
+      token.id = id;
+      var jtoken = JSON.stringify(token);
+      enviarPOST("https://200.5.235.62:8443/validarToken",jtoken);
+      }
+  body(onload='validarToken();')
+    script.
+      function httpGetAsync(theUrl, callback){
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+      document.body.innerHTML = callback(JSON.parse(xmlHttp.responseText),'lista');
+      }
+      xmlHttp.open("GET", theUrl, true); // true for asynchronous
+      xmlHttp.send(null);
+      }
+      httpGetAsync("https://200.5.235.62:8443/dispositivos", ConvertJsonToTable);
