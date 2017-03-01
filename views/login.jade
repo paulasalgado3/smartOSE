@@ -301,14 +301,14 @@ html
       var token = new Object();
       token.id = f_token;
       var jtoken = JSON.stringify(token);
-      enviarPOST("https://"+nombre+":8080/validarToken",f_token);
+      enviarPOST("https://v1-smartpanel.44fs.preview.openshiftapps.com/validarToken",f_token);
       }
       function validarUsuario(f_usuario, f_password){
       var usuario = new Object();
       usuario.nombre = f_usuario;
       usuario.password = f_password;
       var jusuario = JSON.stringify(usuario);
-      enviarPOST("https://"+nombre+":8080/validarUsuario",jusuario);
+      enviarPOST("https://v1-smartpanel.44fs.preview.openshiftapps.com/validarUsuario",jusuario);
       }
   body
     .login
